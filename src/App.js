@@ -1,9 +1,11 @@
-import './App.css';
+import './css/App.css';
+import './css/Grid.css';
+import Game from './Components/game';
 
 function App() {
   return (
-    <div className="App">
-          Edit
+    <div id="App">
+          <Game/>
     </div>
   );
 }
