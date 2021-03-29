@@ -5,7 +5,7 @@ import Game from './Components/game';
 function App() {
   return (
     <div id="App">
-          <Game/>
+          <Game class="Game" />
     </div>
   );
 }
