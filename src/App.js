@@ -1,13 +1,24 @@
 import './css/App.css';
 import './css/Grid.css';
+import React from 'react';
 import Game from './Components/game';
+import MyParticels from './Components/MyParticels';
 
-function App() {
-  return (
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return(
     <div id="App">
-          <Game className="Game" />
+          <MyParticels className="particelsAsBackground"></ MyParticels>
+          <div id="App2">
+            <Game className="Game"/>
+          </div>
     </div>
   );
+  }
 }
 
 export default App;

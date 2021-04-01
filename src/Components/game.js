@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from './grid.js';
-import keydown from 'react-keydown';
 
 class Game extends React.Component{
     constructor(props){
@@ -26,30 +25,15 @@ class Game extends React.Component{
         this.down = this.down.bind(this);
         this.left = this.left.bind(this);
         this.right = this.right.bind(this);
+        this.onKeyPressed = this.onKeyPressed.bind(this);
+        this.changeCellsColor = this.changeCellsColor.bind(this);
     }
 
-    test1() {
-        this.setState({grid: this.add_two(this.state.grid)});                
-    }
-
-    test2() {
-
-        this.setState({grid: this.right(this.state.grid)[0]});
-        //this.setState({grid: this.reverse(this.state.grid)}); 
-        //this.setState({points: this.count_point(this.state.grid)});                
-    }
-
-    test3() {
-        this.setState({grid: this.new_game(4)});         
-    }
-
-    test4() {
-        this.setState({state: this.game_state(this.state.grid)});    
-    }
-
-    reset(){
-
-    }
+    test1() { this.setState({grid: this.add_two(this.state.grid)}); }
+    test2() { this.setState({grid: this.right(this.state.grid)[0]}); }
+    test3() { this.setState({grid: this.new_game(this.state.size)}); }
+    test4() { var mat = this.add_two(this.new_game(this.state.size));
+              this.setState({grid: mat});}
 
     new_game(n){
         //init game
@@ -62,6 +46,10 @@ class Game extends React.Component{
             matrix.push(temp);
         }
         return matrix;
+    }
+
+    reset(n){
+        this.setState({state: this.add_two(this.new_game(this.state.size))});
     }
 
     count_point(mat){
@@ -166,7 +154,6 @@ class Game extends React.Component{
                 }
             }
         }
-        console.log(res);
         return [res,done];
     }
 
@@ -185,7 +172,6 @@ class Game extends React.Component{
     }
 
     up(game){
-        console.log("up");
         // return matrix after shifting up
         game = this.transpose(game);
         var res_cover = this.cover_up(game);
@@ -200,7 +186,6 @@ class Game extends React.Component{
     }
 
     down(game){
-        console.log("down")
         // return matrix after shifting up
         game = this.reverse(this.transpose(game));
         var res_cover = this.cover_up(game);
@@ -215,7 +200,6 @@ class Game extends React.Component{
     }
 
     left(game){
-        console.log("left")
         // return matrix after shifting left
         var res_cover = this.cover_up(game);
         game = res_cover[0];
@@ -228,7 +212,6 @@ class Game extends React.Component{
     }
 
     right(game){
-        console.log("right")
         // return matrix after shifting right
         game = this.reverse(game);
         var res_cover = this.cover_up(game);
@@ -242,32 +225,79 @@ class Game extends React.Component{
         return [game,done];
     }
 
-    @keydown( 'enter' )
-    key_down(event){
-        var key = event;
-        //key = repr(event.char)
-        if (true/*key in self.commands*/){
-            var temp = this.up(this.state.grid); //comando up etc
-            this.setState({grid: temp[0]});
-            var done = temp[1];
-            if(done){
-                this.setState({grid: this.add_two(this.state.grid)});
-                this.setState({point: this.count_point(this.state.grid)});
-            }
-            else{
-                if(this.game_state(this.state.grid) == 'win'){
-                    alert("You Win!");
-                }
-                if(this.game_state(this.state.grid) == 'lose'){
-                    alert("You Lose!");
-                }
-            }
+    key_down(key){ 
+        var temp = null;
+        if (key === "UP") temp = this.up(this.state.grid);
+        if (key === "LEFT") temp = this.left(this.state.grid);
+        if (key === "DOWN") temp = this.down(this.state.grid);
+        if (key === "RIGTH") temp = this.right(this.state.grid);
+        this.setState({grid: temp[0]});
+        this.changeCellsColor();
+        if(temp[1]){
+            this.setState({grid: this.add_two(temp[0])});
+            this.setState({point: this.count_point(this.state.grid)});
         }
+        else{
+            if(this.game_state(this.state.grid) == 'win') alert("You Win!");
+            if(this.game_state(this.state.grid) == 'lose') alert("You Lose!");
+        }
+    }
+
+    onKeyPressed(e){
+        if(e.key === "w" || e.key === "ArrowUp"){
+            console.log("UP");
+            this.key_down("UP");
+        }
+        if(e.key === "a" || e.key === "ArrowLeft"){
+            console.log("LEFT");
+            this.key_down("LEFT");
+        }
+        if(e.key === "s" || e.key === "ArrowDown"){
+            console.log("DOWN");
+            this.key_down("DOWN");
+        }
+        if(e.key === "d" || e.key === "ArrowRight"){
+            console.log("RIGTH");
+            this.key_down("RIGTH");
+        }
+    }
+
+    changeCellsColor(){
+        for(var i = 1; i <= this.state.size * this.state.size ; i++){
+            var element = document.getElementById("cell_" + i);
+            var html = element.children[0].innerHTML;
+            if (html === "0")      element.style.background = "rgba(19, 60, 85)";
+            if (html === "2")      element.style.background = "rgba(56, 111, 164)";
+            if (html === "4")      element.style.background = "rgba(89, 165, 216)";
+            if (html === "8")      element.style.background = "rgba(130, 205, 236)";
+            if (html === "16")     element.style.background = "rgba(145, 229, 246)";
+            if (html === "32")     element.style.background = "rgba(19, 94, 85)";
+            if (html === "64")     element.style.background = "rgba(56, 154, 128)";
+            if (html === "128")    element.style.background = "rgba(89, 201, 170)";
+            if (html === "256")    element.style.background = "rgba(162, 238, 201)";
+            if (html === "512")    element.style.background = "rgba(162, 255, 194)";
+            if (html === "1024")   element.style.background = "yellow";
+            if (html === "2048")   element.style.background = "yellow";
+            if (html === "4096")   element.style.background = "yellow";
+            if (html === "8192")   element.style.background = "yellow";
+            if (html === "16384")  element.style.background = "yellow";
+            if (html === "32768")  element.style.background = "yellow";
+            if (html === "65536")  element.style.background = "yellow";
+            if (html === "131072") element.style.background = "yellow";
+        }
+        
+    }
+    componentDidMount(){
+        this.setState({grid: this.add_two(this.state.grid)});
+    }
+
+    componentDidUpdate(){
+        this.changeCellsColor();
     }
     
     render() {
         return(
-        <div>
+        <div tabIndex="-1" onKeyDown={this.onKeyPressed} className="all2">
             <Grid grid={this.state.grid} 
                   points={this.state.points}
                   state={this.state.state}

@@ -1,12 +1,29 @@
+.all{
+    overflow: hidden;
+    
+}
+
+#Title{
+
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    width: fit-content;
+    margin: auto;
+    margin-top: 30px;
+}
+
 .Points{
     color: white;
     font-size: 30px;
     text-align: center;
     width: 50%;
     padding: 10px;
+    margin: auto;
 }
 
 .State{
+    margin: auto;
     color: white;
     font-size: 40px;
     text-align: center;
@@ -15,18 +32,16 @@
 }
 
 #grid{
+    margin: auto;
     display: flex;
     justify-content:center;
     flex-wrap: wrap;
-
     height: 50%;
     width: 50%;
     vertical-align: middle;
-
     border-color: rgb(128, 128, 128);
     border-style: solid;
-    border-width: 10px;
-
+    border-width: 0px;
     border-radius: 20px;
 }
 
@@ -34,15 +49,13 @@
     display:flex;
     align-items:center;
     justify-content:center;
-
-    color: rgb(168, 175, 255);
-    font-size: 30px;
-
-    height: 24%;
-    width: 24%;
-    margin: 0.5%;
+    color: rgb(255, 255, 255);
+    font-size: 34px;
+    height: 22%;
+    width: 22%;
+    margin: 1%;
     background-color: rgb(112, 112, 112);
-
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
     border-radius: 20px;
     border-style: solid;
     border-width: 0px;
@@ -56,6 +69,7 @@
 }
 
 .Buttons{
+    margin: auto;
     width: 50%;
     padding: 10px;
     align-items: center;
@@ -67,11 +81,19 @@
 }
 
 #Button1, #Button2, #Button3, #Button4{
-    padding: 10px;
+    padding: 15px;
     margin: 10px;
+    font-size: 20px;
 
-    color: violet;
+    color: rgb(255, 255, 255);
     border-style: solid;
-    border-width: 1px;
+    border-radius: 10px;
+    background-color: black;
+    border-width: 0px;
     border-color: rgb(255, 255, 255); 
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+#Button1:hover, #Button2:hover, #Button3:hover, #Button4:hover{
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
 }

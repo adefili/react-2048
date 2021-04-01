@@ -9,26 +9,15 @@ class Grid extends React.Component{
         this.button4 = this.button4.bind(this);
     }
 
-    button1(){
-        this.props.handler1();
-    }
-
-    button2(){
-        this.props.handler2();
-    }
-
-    button3(){
-        this.props.handler3();
-    }
-
-    button4(){
-        this.props.handler4();
-    }
+    button1(){this.props.handler1();}
+    button2(){this.props.handler2();}
+    button3(){this.props.handler3();}
+    button4(){this.props.handler4();}
 
     render() {
         return(
             <div className="all">
-                <div className="State">{this.props.state}</div>
+                <div id="Title">REACT 2048 With AI (Reinforcemnt Learning)</div>
                 <div className="Points">{this.props.points}</div>
                 <div id="grid">
                     <div class="cell" id="cell_1" ><div className="internalCell">{this.props.grid[0][0]}</div></div>
@@ -52,8 +41,9 @@ class Grid extends React.Component{
                     <div id="Button1" onClick={() => this.button1()}>test1</div>
                     <div id="Button2" onClick={() => this.button2()}>test2</div>
                     <div id="Button3" onClick={() => this.button3()}>test3</div>
-                    <div id="Button4" onClick={() => this.button4()}>test4</div>
+                    <div id="Button4" onClick={() => this.button4()}>Restart Game</div>
                 </div>
+                <div className="State">{this.props.state}</div>
                 
             </div>
         )
