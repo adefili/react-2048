@@ -244,19 +244,19 @@ class Game extends React.Component{
     }
 
     onKeyPressed(e){
-        if(e.key === "w" || e.key === "ArrowUp"){
+        if(e.key === "w" || e.key === "ArrowUp" || e === "up"){
             console.log("UP");
             this.key_down("UP");
         }
-        if(e.key === "a" || e.key === "ArrowLeft"){
+        if(e.key === "a" || e.key === "ArrowLeft" || e === "left"){
             console.log("LEFT");
             this.key_down("LEFT");
         }
-        if(e.key === "s" || e.key === "ArrowDown"){
+        if(e.key === "s" || e.key === "ArrowDown" || e === "down"){
             console.log("DOWN");
             this.key_down("DOWN");
         }
-        if(e.key === "d" || e.key === "ArrowRight"){
+        if(e.key === "d" || e.key === "ArrowRight" || e === "right"){
             console.log("RIGTH");
             this.key_down("RIGTH");
         }
