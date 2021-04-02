@@ -1,5 +1,7 @@
 import React from 'react';
 import Grid from './grid.js';
+import { Model } from './model.js';
+import * as tf from '@tensorflow/tfjs';
 
 class Game extends React.Component{
     constructor(props){
@@ -11,7 +13,9 @@ class Game extends React.Component{
                    [0,0,0,0]],
             size: 4,
             points: 0,
-            game_state: "not over"
+            reward: 0,
+            game_state: "not over",
+            model: new Model(16, 16, 4, 0)
         }
         this.test1 = this.test1.bind(this);
         this.test2 = this.test2.bind(this);
@@ -27,14 +31,50 @@ class Game extends React.Component{
         this.right = this.right.bind(this);
         this.onKeyPressed = this.onKeyPressed.bind(this);
         this.changeCellsColor = this.changeCellsColor.bind(this);
+        this.run = this.run.bind(this);
     }
 
-    test1() { this.setState({grid: this.add_two(this.state.grid)}); }
-    test2() { this.setState({grid: this.right(this.state.grid)[0]}); }
-    test3() { this.setState({grid: this.new_game(this.state.size)}); }
+    test1() { this.run(); }
+    test2() {  }
+    test3() {  }
     test4() { var mat = this.add_two(this.new_game(this.state.size));
               this.setState({grid: mat});}
 
+
+    //////////////
+    //    AI    //
+    //////////////
+
+    chooseAction(){
+        var random = Math.floor(Math.random() * 4);
+        if(random === 0) this.onKeyPressed("up");
+        if(random === 1) this.onKeyPressed("down");
+        if(random === 2) this.onKeyPressed("left");
+        if(random === 3) this.onKeyPressed("right");
+    }
+
+    stateToArray(){
+        var mat = this.state.grid;
+        var res = [];
+        for(var i = 0; i < mat.length; i++){
+            for(var j = 0; j < mat[i].length; j++){
+                res.push(mat[i][j]);
+            }
+        }
+        return tf.tensor2d([res]);
+    }
+
+    run(){
+        var old_points = this.state.points;
+        var action = this.state.model.chooseAction(this.stateToArray(), 0);
+        console.log(action);
+        
+    }
+
+    //////////////
+    //GAME LOGIC//
+    //////////////
+    
     new_game(n){
         //init game
         var matrix = [];
@@ -234,8 +274,12 @@ class Game extends React.Component{
         this.setState({grid: temp[0]});
         this.changeCellsColor();
         if(temp[1]){
+            var old_points = this.state.points;
+            var new_points = this.count_point(this.state.grid);
+            var reward = new_points - old_points;
+            this.setState({reward: reward});
+            this.setState({points: new_points});
             this.setState({grid: this.add_two(temp[0])});
-            this.setState({point: this.count_point(this.state.grid)});
         }
         else{
             if(this.game_state(this.state.grid) == 'win') alert("You Win!");
@@ -298,7 +342,8 @@ class Game extends React.Component{
     render() {
         return(
         <div tabIndex="-1" onKeyDown={this.onKeyPressed} className="all2">
-            <Grid grid={this.state.grid} 
+            <Grid grid={this.state.grid}
+                  reward={this.state.reward}
                   points={this.state.points}
                   state={this.state.state}
                   ref={this.gridRef}

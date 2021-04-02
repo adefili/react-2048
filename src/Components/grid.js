@@ -19,6 +19,7 @@ class Grid extends React.Component{
             <div className="all">
                 <div id="Title">REACT 2048 With AI (Reinforcemnt Learning)</div>
                 <div className="Points">{this.props.points}</div>
+                <div className="Points">{this.props.reward}</div>
                 <div id="grid">
                     <div class="cell" id="cell_1" ><div className="internalCell">{this.props.grid[0][0]}</div></div>
                     <div class="cell" id="cell_2" ><div className="internalCell">{this.props.grid[0][1]}</div></div>
